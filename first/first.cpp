@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 
+#define TOPELFS 3
 
 std::vector< std::vector < int > > parse_calories( char* filename ) {
 	std::ifstream textfile;
@@ -63,7 +64,25 @@ int main(int argc, char** argv) {
 		}
 	}
 
-	std::cout << "Elf idx " << elf_idx << " has " << max_cals << " calories in its bag.\n";
+	std::cout << "First problem: Elf idx " << elf_idx << " has " << max_cals << " calories in its bag.\n";
+
+	int sum_of_top_x = 0;
+
+	for ( size_t i = 0; i < TOPELFS; i++ ) {
+		size_t elf_idx = 0;
+		int max_cals = 0;
+		for ( size_t j = 0; j < bags.size() ; j++ ) {
+			int sum_bag = sum_bag_cals( bags[j] );
+			if ( sum_bag > max_cals ) {
+				max_cals = sum_bag;
+				elf_idx = j;
+			}
+		}
+		sum_of_top_x += max_cals;
+		bags.erase( bags.begin()+elf_idx );
+	}
+
+	std::cout << "Second problem: Sum of first three elfs bag: " << sum_of_top_x << std::endl;
 
 	return 0;
 }
